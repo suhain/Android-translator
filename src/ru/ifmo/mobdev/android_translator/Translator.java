@@ -1,4 +1,4 @@
-package ru.ifmo.mobdev;
+package ru.ifmo.mobdev.android-translator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
