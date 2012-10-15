@@ -19,7 +19,9 @@ public class MainActivity extends Activity implements OnClickListener {
         setContentView(R.layout.activity_main);
         
         Translate = (Button) findViewById(R.id.Translate);
+        
         editText = (EditText) findViewById(R.id.expr);
+        
         Translate.setOnClickListener(this);
     }
 

@@ -19,7 +19,7 @@ public class ResultActivity extends Activity {
 	Bundle extras;
 	Translator translator;
 	String Expr = null;
-	String translation = null;
+	String translation;
 	String[] links;
 	ImageView picture;
 	
@@ -42,10 +42,6 @@ public class ResultActivity extends Activity {
 		textView.setText(Expr + " - " + translation);
 		links = ImageSearcher.searchImages(Expr);
 		
-		DrawImages();
-	}
-	
-	private void DrawImages () {
 		picture = (ImageView) findViewById(R.id.img0);
 		picture.setImageDrawable(LoadImage(links[0]));
 		
