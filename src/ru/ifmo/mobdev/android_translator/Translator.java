@@ -32,10 +32,10 @@ public class Translator {
 		} catch (InterruptedException e) {
 			return null;
 		}
-		
+
 		return rusEx.substring(1, rusEx.length() - 1);
 	}
-		
+
 	private void workWithNetwork() {
 	try {
 			url = new URL(adress + engExWoutSpaces);
