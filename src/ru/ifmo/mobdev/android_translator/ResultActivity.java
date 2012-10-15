@@ -5,6 +5,7 @@ import java.net.URL;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -19,9 +20,10 @@ public class ResultActivity extends Activity {
 	Bundle extras;
 	Translator translator;
 	String Expr = null;
-	String translation;
-	String[] links;
+	volatile String translation = null;
+	volatile String[] links;
 	ImageView picture;
+	Thread DrawImgs = null;
 	
 	@SuppressLint({ "NewApi", "NewApi", "NewApi", "NewApi", "NewApi" })
 	@Override
@@ -37,11 +39,14 @@ public class ResultActivity extends Activity {
 		StrictMode.setThreadPolicy(policy);
 		
 		translator = new Translator();
-		translation = translator.translate(Expr);
 		
+		translation = translator.translate(Expr);
 		textView.setText(Expr + " - " + translation);
 		links = ImageSearcher.searchImages(Expr);
-		
+		DrawImages();
+	}
+	
+	private void DrawImages () {
 		picture = (ImageView) findViewById(R.id.img0);
 		picture.setImageDrawable(LoadImage(links[0]));
 		
@@ -82,4 +87,11 @@ public class ResultActivity extends Activity {
  			return null;
  		}
  	}
+	
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		finish();
+	}
 }

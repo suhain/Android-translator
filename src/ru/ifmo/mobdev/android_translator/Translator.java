@@ -18,7 +18,7 @@ public class Translator {
 		engExWoutSpaces = engEx;
 		for (int i = 0; i < engEx.length(); i++) {
 			if (engEx.charAt(i) == ' ') {
-				engExWoutSpaces = engExWoutSpaces.substring(0, i) + "+" + engExWoutSpaces.substring(i + 1);
+				engExWoutSpaces = engEx.substring(0, i) + "+" + engEx.substring(i + 1);
 			}
 		}
 		Thread thread = new Thread(new Runnable() {

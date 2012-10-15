@@ -15,10 +15,7 @@ public class ImageSearcher {
 	private static volatile StringBuilder sourceString = null; // same
 
 	public static synchronized String[] searchImages(String queryWord) {
-		query = queryPrefix;
-		for (int i = 0; i != queryWord.length(); i++) {
-			query += (queryWord.charAt(i) == ' ' ? '+' : queryWord.charAt(i));
-		}
+		query = queryPrefix + queryWord;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
 				execQuery();
