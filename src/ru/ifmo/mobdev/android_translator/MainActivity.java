@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
 
 	
 	public void goToResultScreen() {
-		if((editText.getText().toString()) != null && !(editText.getText().toString().equals(""))) {
+		if((editText.getText().toString()) != null && !(editText.getText().toString().equals("")) && checkInputExpr(editText.getText().toString())) {
 			Intent intent = new Intent(this, ResultActivity.class);
 			intent.putExtra("expr", editText.getText().toString());
 			startActivity(intent);
@@ -73,5 +73,17 @@ public class MainActivity extends Activity {
 				.setNeutralButton("Ok", null);
 			builder.create().show();
 		}
+	}
+	
+	private boolean checkInputExpr(String inputExpr) {
+		boolean ok = true;
+		for (int i = 0; i < inputExpr.length(); i++) {
+			char cur = inputExpr.charAt(i);
+			if (!(('a' <= cur && cur <= 'z') || ('A' <= cur && cur <= 'Z') || cur == ' ')) {
+				ok = false;
+				break;
+			}
+		}
+		return ok;
 	}
 }
