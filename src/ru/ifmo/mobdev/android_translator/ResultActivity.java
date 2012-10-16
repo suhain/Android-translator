@@ -10,44 +10,42 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
 
 public class ResultActivity extends Activity {
-	
+
 	TextView textView;
 	Bundle extras;
 	Translator translator;
 	ImageSearcher ImgSrch;
 	String Expr = null;
 	String translation = null;
-	
+
 	@SuppressLint({ "NewApi", "NewApi", "NewApi", "NewApi", "NewApi" })
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.resultactivity);
-		
+
 		textView = (TextView) findViewById(R.id.Translation);
 		extras = getIntent().getExtras();
 		Expr = extras.getString("expr").toString();
-		
+		translation = extras.getString("trans").toString();
+
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
+
 		
-		translator = new Translator();
-		
-		translation = translator.translate(Expr);
 		textView.setText(Expr + " - " + translation);
-		
+
 		ImgSrch = new ImageSearcher(Expr);
-		
+
 		DrawImages();
 	}
-	
+
 	private void DrawImages () {
 		new DownloadImageTask((ImageView) findViewById(R.id.img0)).execute(ImgSrch.nextUrl());
 		new DownloadImageTask((ImageView) findViewById(R.id.img1)).execute(ImgSrch.nextUrl());
@@ -60,14 +58,14 @@ public class ResultActivity extends Activity {
 		new DownloadImageTask((ImageView) findViewById(R.id.img8)).execute(ImgSrch.nextUrl());
 		new DownloadImageTask((ImageView) findViewById(R.id.img9)).execute(ImgSrch.nextUrl());
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 		finish();
 	}
-	
+
 	private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 		ImageView bmImage;
 
@@ -82,7 +80,6 @@ public class ResultActivity extends Activity {
 		        InputStream in = new java.net.URL(urldisplay).openStream();
 		        mIcon11 = BitmapFactory.decodeStream(in);
 		    } catch (Exception e) {
-		        Log.e("Error", e.getMessage());
 		        e.printStackTrace();
 		    }
 		    return mIcon11;
@@ -92,5 +89,5 @@ public class ResultActivity extends Activity {
 		    bmImage.setImageBitmap(res);
 		}
 	}
-	
+
 }

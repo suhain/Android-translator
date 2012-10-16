@@ -16,6 +16,8 @@ public class MainActivity extends Activity {
 
 	Button Translate;
 	EditText editText;
+	Translator translator;
+	String translation = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -26,14 +28,12 @@ public class MainActivity extends Activity {
 		editText = (EditText) findViewById(R.id.expr);
 		Translate.setOnClickListener(new OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				goToResultScreen();
 			}
 		});
 		editText.setOnKeyListener(new OnKeyListener() {
 
-			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if ((event.getAction() == KeyEvent.ACTION_DOWN)
 						&& (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
 	public void onBackPressed() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Exit")
-				.setMessage("Do you want close this app?")
+				.setMessage("Do you want to close this app?")
 				.setPositiveButton("Yes",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
@@ -62,10 +62,21 @@ public class MainActivity extends Activity {
 	
 	public void goToResultScreen() {
 		if((editText.getText().toString()) != null && !(editText.getText().toString().equals("")) && checkInputExpr(editText.getText().toString())) {
-			Intent intent = new Intent(this, ResultActivity.class);
-			intent.putExtra("expr", editText.getText().toString());
-			startActivity(intent);
-			finish();
+			translator = new Translator();
+			translation = translator.translate(editText.getText().toString());
+			if (translation != null) {
+				Intent intent = new Intent(this, ResultActivity.class);
+				intent.putExtra("expr", editText.getText().toString());
+				intent.putExtra("trans", translation);
+				startActivity(intent);
+				finish();
+			} else {
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				builder.setTitle("No network")
+					.setMessage("Check your network connection")
+					.setNeutralButton("Ok", null);
+				builder.create().show();
+			}
 		} else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 			builder.setTitle("Incorrect request")
